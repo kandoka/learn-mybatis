@@ -1,6 +1,7 @@
 package com.kandoka.mybatis.binding;
 
 import cn.hutool.core.util.StrUtil;
+import com.kandoka.mybatis.session.SqlSession;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
@@ -16,10 +17,10 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
 
     private static final long serialVersionUID = -5535484319931298612L;
 
-    private Map<String, String> sqlSession;
+    private SqlSession sqlSession;
     private final Class<T> mapperInterface;
 
-    public MapperProxy(Map<String, String> sqlSession, Class<T> mapperInterface) {
+    public MapperProxy(SqlSession sqlSession, Class<T> mapperInterface) {
         this.sqlSession = sqlSession;
         this.mapperInterface = mapperInterface;
     }
@@ -30,7 +31,10 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
             return method.invoke(this, args);
         } else {
             return StrUtil.format("you have been proxied! {}",
-                     sqlSession.get(StrUtil.format("{}.{}", mapperInterface.getName(), method.getName()))
+                    sqlSession.selectOne(
+                             StrUtil.format("{}.{}", mapperInterface.getName(), method.getName()),
+                            args
+                    ).toString()
             );
         }
     }
