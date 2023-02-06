@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.kandoka</groupId>
+  <artifactId>learn-mybatis</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <modules>
+    <module>core</module>
+  </modules>
+  <packaging>pom</packaging>
+
+  <developers>
+    <developer>
+      <id>light-spring</id>
+      <name>Kandoka</name>
+      <email>kandoka@126.com</email>
+    </developer>
+  </developers>
+
+  <licenses>
+    <license>
+      <name>The MIT License</name>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <name>learn-mybatis Maven Plugin</name>
+  <properties>
+    <java.version>1.8</java.version>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>cn.hutool</groupId>
+      <artifactId>hutool-all</artifactId>
+      <version>5.5.0</version>
+    </dependency>
+    <!--        slf4j包-->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.8.0-beta2</version>
+    </dependency>
+    <!--        slf4j和log4j日志交换包-->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.8.0-beta2</version>
+    </dependency>
+    <!--        log4j包-->
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.22</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+
+</project>
