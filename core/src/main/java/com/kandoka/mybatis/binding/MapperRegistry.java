@@ -4,6 +4,7 @@ import cn.hutool.core.lang.ClassScanner;
 import cn.hutool.core.util.StrUtil;
 import com.kandoka.mybatis.session.Configuration;
 import com.kandoka.mybatis.session.SqlSession;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +16,7 @@ import java.util.Set;
  * @Author kandoka
  * @Date 2023/2/6 16:37
  */
+@Slf4j
 public class MapperRegistry {
 
     private Configuration configuration;
@@ -29,6 +31,7 @@ public class MapperRegistry {
     private final Map<Class<?>, MapperProxyFactory<?>> knownMappers = new HashMap<>();
 
     public <T> T getMapper(Class<T> type, SqlSession sqlSession) {
+        log.info("find the mapper proxy factory by class: {}", type.getCanonicalName());
         final MapperProxyFactory<T> mapperProxyFactory = (MapperProxyFactory<T>) knownMappers.get(type);
         if(mapperProxyFactory == null) {
             throw new RuntimeException(StrUtil.format("Type {} is not known to the registry", type));
