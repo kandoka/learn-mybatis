@@ -2,6 +2,8 @@ package com.kandoka.mybatis.session.defaults;
 
 import cn.hutool.core.util.StrUtil;
 import com.kandoka.mybatis.binding.MapperRegistry;
+import com.kandoka.mybatis.mapping.MappedStatement;
+import com.kandoka.mybatis.session.Configuration;
 import com.kandoka.mybatis.session.SqlSession;
 
 /**
@@ -11,13 +13,10 @@ import com.kandoka.mybatis.session.SqlSession;
  */
 public class DefaultSqlSession implements SqlSession {
 
-    /**
-     * 映射器注册机
-     */
-    private MapperRegistry mapperRegistry;
+    private Configuration configuration;
 
-    public DefaultSqlSession(MapperRegistry mapperRegistry) {
-        this.mapperRegistry = mapperRegistry;
+    public DefaultSqlSession(Configuration configuration) {
+        this.configuration = configuration;
     }
 
     @Override
@@ -27,11 +26,13 @@ public class DefaultSqlSession implements SqlSession {
 
     @Override
     public <T> T selectOne(String statement, Object parameter) {
-        return (T) StrUtil.format("You have been proxied! Method: {}, parameter: {}", statement, parameter);
+        MappedStatement mappedStatement = this.configuration.getMappedStatement(statement);
+        return (T) StrUtil.format("You have been proxied! Method: {}, parameter: {}, sql: {}",
+                statement, parameter, mappedStatement.getSql());
     }
 
     @Override
     public <T> T getMapper(Class<T> type) {
-        return mapperRegistry.getMapper(type, this);
+        return this.configuration.getMapper(type, this);
     }
 }

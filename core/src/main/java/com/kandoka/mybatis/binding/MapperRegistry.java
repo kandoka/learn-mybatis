@@ -2,6 +2,7 @@ package com.kandoka.mybatis.binding;
 
 import cn.hutool.core.lang.ClassScanner;
 import cn.hutool.core.util.StrUtil;
+import com.kandoka.mybatis.session.Configuration;
 import com.kandoka.mybatis.session.SqlSession;
 
 import java.util.HashMap;
@@ -15,6 +16,12 @@ import java.util.Set;
  * @Date 2023/2/6 16:37
  */
 public class MapperRegistry {
+
+    private Configuration configuration;
+
+    public MapperRegistry(Configuration configuration) {
+        this.configuration = configuration;
+    }
 
     /**
      * added mappers, as a registry
