@@ -4,7 +4,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 
 /**
- * @Description TODO
+ * @Description A factory to create a transaction
  * @Author kandoka
  * @Date 2023/2/7 14:46
  */

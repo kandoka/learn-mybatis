@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.Reader;
 
 /**
- * @Description TODO
+ * @Description A builder to sql session factory
  * @Author kandoka
  * @Date 2023/2/6 17:58
  */
@@ -21,6 +21,7 @@ public class SqlSessionFactoryBuilder {
     }
 
     public SqlSessionFactory build(Configuration config) {
+        log.info("create a sql session factory via configuration");
         return new DefaultSqlSessionFactory(config);
     }
 }

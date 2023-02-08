@@ -26,7 +26,7 @@ public class MapperRegistry {
     }
 
     /**
-     * added mappers, as a registry
+     * a map for mapper class and its proxy factory
      */
     private final Map<Class<?>, MapperProxyFactory<?>> knownMappers = new HashMap<>();
 

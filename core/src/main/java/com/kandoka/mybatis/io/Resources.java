@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 /**
- * @Description TODO
+ * @Description read resources as input stream
  * @Author kandoka
  * @Date 2023/2/6 17:57
  */

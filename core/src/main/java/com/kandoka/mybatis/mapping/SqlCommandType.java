@@ -1,7 +1,7 @@
 package com.kandoka.mybatis.mapping;
 
 /**
- * @Description SQL cmoomand types
+ * @Description SQL command types
  * @Author kandoka
  * @Date 2023/2/6 17:57
  */
