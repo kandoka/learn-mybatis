@@ -2,6 +2,8 @@ package com.kandoka.mybatis.session;
 
 import com.kandoka.mybatis.binding.MapperRegistry;
 import com.kandoka.mybatis.datasource.druid.DruidDataSourceFactory;
+import com.kandoka.mybatis.datasource.pooled.PooledDataSourceFactory;
+import com.kandoka.mybatis.datasource.unpooled.UnpooledDataSourceFactory;
 import com.kandoka.mybatis.mapping.Environment;
 import com.kandoka.mybatis.mapping.MappedStatement;
 import com.kandoka.mybatis.transaction.jdbc.JdbcTransactionFactory;
@@ -31,6 +33,8 @@ public class Configuration {
     public Configuration() {
         typeAliasRegistry.registerAlias("JDBC", JdbcTransactionFactory.class);
         typeAliasRegistry.registerAlias("DRUID", DruidDataSourceFactory.class);
+        typeAliasRegistry.registerAlias("UNPOOLED", UnpooledDataSourceFactory.class);
+        typeAliasRegistry.registerAlias("POOLED", PooledDataSourceFactory.class);
     }
 
     public <T> void addMapper(Class<T> type) {

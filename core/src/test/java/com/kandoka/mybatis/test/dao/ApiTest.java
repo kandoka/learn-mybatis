@@ -65,4 +65,22 @@ public class ApiTest {
         User user = userDao.queryUserById(1L);
         log.info("测试结果：{}", user);
     }
+
+    @Test
+    public void test_SqlSessionFactoryWithPoolAndUnpooledDatasource() throws IOException {
+        // 1. 从SqlSessionFactory中获取SqlSession
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsReader("mybatis-config-datasource.xml"));
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        // 2. 获取映射器对象
+        IUserDao userDao = sqlSession.getMapper(IUserDao.class);
+
+        // 3. 测试验证
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 50; i++) {
+            User user = userDao.queryUserById(1L);
+        }
+        long end = System.currentTimeMillis();
+        log.info("测试结果：{} ms", end - start);
+    }
 }
