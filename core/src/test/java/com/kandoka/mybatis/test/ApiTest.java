@@ -1,9 +1,10 @@
-package com.kandoka.mybatis.test.dao;
+package com.kandoka.mybatis.test;
 
 import com.kandoka.mybatis.io.Resources;
 import com.kandoka.mybatis.session.SqlSession;
 import com.kandoka.mybatis.session.SqlSessionFactory;
 import com.kandoka.mybatis.session.SqlSessionFactoryBuilder;
+import com.kandoka.mybatis.test.dao.IUserDao;
 import com.kandoka.mybatis.test.po.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -77,7 +78,7 @@ public class ApiTest {
 
         // 3. 测试验证
         long start = System.currentTimeMillis();
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 1; i++) {
             User user = userDao.queryUserById(1L);
         }
         long end = System.currentTimeMillis();

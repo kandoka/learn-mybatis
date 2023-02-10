@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="DEBUG" monitorInterval="30">
     <Properties>
-        <Property name="LOG_PATTERN">%highlight{%d{yyyy-MM-dd HH:mm:ss} %-5p [%c{1.}] - %m%n}{ERROR=Bright RED, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White}</Property>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss} %highlight{%-5p} %style{[%c{1.}]}{RED} - %m%n</Property>
     </Properties>
 
     <Appenders>

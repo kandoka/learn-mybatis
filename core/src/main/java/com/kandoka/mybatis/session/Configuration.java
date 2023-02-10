@@ -4,8 +4,16 @@ import com.kandoka.mybatis.binding.MapperRegistry;
 import com.kandoka.mybatis.datasource.druid.DruidDataSourceFactory;
 import com.kandoka.mybatis.datasource.pooled.PooledDataSourceFactory;
 import com.kandoka.mybatis.datasource.unpooled.UnpooledDataSourceFactory;
+import com.kandoka.mybatis.executor.Executor;
+import com.kandoka.mybatis.executor.SimpleExecutor;
+import com.kandoka.mybatis.executor.resultset.DefaultResultSetHandler;
+import com.kandoka.mybatis.executor.resultset.ResultSetHandler;
+import com.kandoka.mybatis.executor.statement.PreparedStatementHandler;
+import com.kandoka.mybatis.executor.statement.StatementHandler;
+import com.kandoka.mybatis.mapping.BoundSql;
 import com.kandoka.mybatis.mapping.Environment;
 import com.kandoka.mybatis.mapping.MappedStatement;
+import com.kandoka.mybatis.transaction.Transaction;
 import com.kandoka.mybatis.transaction.jdbc.JdbcTransactionFactory;
 import com.kandoka.mybatis.type.TypeAliasRegistry;
 import lombok.extern.slf4j.Slf4j;
@@ -64,5 +72,39 @@ public class Configuration {
 
     public TypeAliasRegistry getTypeAliasRegistry() {
         return typeAliasRegistry;
+    }
+
+    /**
+     * create a result set handler
+     * @param executor
+     * @param mappedStatement
+     * @param boundSql
+     * @return
+     */
+    public ResultSetHandler newResultSetHandler(Executor executor, MappedStatement mappedStatement, BoundSql boundSql) {
+        return new DefaultResultSetHandler(executor, mappedStatement, boundSql);
+    }
+
+    /**
+     * create a executor
+     * @param transaction
+     * @return
+     */
+    public Executor newExecutor(Transaction transaction) {
+        return new SimpleExecutor(this, transaction);
+    }
+
+    /**
+     * create a statement handler
+     * @param executor
+     * @param mappedStatement
+     * @param parameter
+     * @param resultHandler
+     * @param boundSql
+     * @return
+     */
+    public StatementHandler newStatementHandler(Executor executor, MappedStatement mappedStatement,
+                                                Object parameter, ResultHandler resultHandler, BoundSql boundSql) {
+        return new PreparedStatementHandler(executor, mappedStatement, parameter, resultHandler, boundSql);
     }
 }
