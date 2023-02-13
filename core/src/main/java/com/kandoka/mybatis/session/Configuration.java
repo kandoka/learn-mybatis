@@ -17,9 +17,11 @@ import com.kandoka.mybatis.transaction.Transaction;
 import com.kandoka.mybatis.transaction.jdbc.JdbcTransactionFactory;
 import com.kandoka.mybatis.type.TypeAliasRegistry;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * @Description a wrapper for registry and sql statements
