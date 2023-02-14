@@ -1,5 +1,8 @@
 package com.kandoka.mybatis.reflection.wrapper;
 
+import com.kandoka.mybatis.log.Mark;
+import com.kandoka.mybatis.log.MarkableLogger;
+import com.kandoka.mybatis.log.MarkableLoggerFactory;
 import com.kandoka.mybatis.reflection.MetaObject;
 import com.kandoka.mybatis.reflection.SystemMetaObject;
 import com.kandoka.mybatis.reflection.factory.ObjectFactory;
@@ -16,11 +19,14 @@ import java.util.Map;
  */
 public class MapWrapper extends BaseWrapper {
 
+    private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.REFLECT, MetaObject.class);
+
     // 原来的对象
     private Map<String, Object> map;
 
     public MapWrapper(MetaObject metaObject, Map<String, Object> map) {
         super(metaObject);
+        log.info("Create a map wrapper for {}", metaObject.getClass().getCanonicalName());
         this.map = map;
     }
 

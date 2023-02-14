@@ -1,5 +1,9 @@
 package com.kandoka.mybatis.reflection.property;
 
+import com.kandoka.mybatis.log.Mark;
+import com.kandoka.mybatis.log.MarkableLogger;
+import com.kandoka.mybatis.log.MarkableLoggerFactory;
+
 import java.util.Locale;
 
 /**
@@ -9,6 +13,8 @@ import java.util.Locale;
  */
 public class PropertyNamer {
 
+    public static final MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.REFLECT, PropertyNamer.class);
+
     private PropertyNamer() {
     }
 
@@ -16,6 +22,7 @@ public class PropertyNamer {
      * 方法转换为属性
      */
     public static String methodToProperty(String name) {
+        String methodName = name;
         if (name.startsWith("is")) {
             name = name.substring(2);
         } else if (name.startsWith("get") || name.startsWith("set")) {
@@ -32,6 +39,7 @@ public class PropertyNamer {
             name = name.substring(0, 1).toLowerCase(Locale.ENGLISH) + name.substring(1);
         }
 
+        log.info("Trans method {} to property {}", methodName, name);
         return name;
     }
 

@@ -1,5 +1,8 @@
 package com.kandoka.mybatis.reflection;
 
+import com.kandoka.mybatis.log.Mark;
+import com.kandoka.mybatis.log.MarkableLogger;
+import com.kandoka.mybatis.log.MarkableLoggerFactory;
 import com.kandoka.mybatis.reflection.invoker.GetFieldInvoker;
 import com.kandoka.mybatis.reflection.invoker.Invoker;
 import com.kandoka.mybatis.reflection.invoker.MethodInvoker;
@@ -18,6 +21,8 @@ import java.util.Collection;
  */
 public class MetaClass {
 
+    private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.REFLECT, MetaClass.class);
+
     private Reflector reflector;
 
     private MetaClass(Class<?> type) {
@@ -25,6 +30,7 @@ public class MetaClass {
     }
 
     public static MetaClass forClass(Class<?> type) {
+        log.info("Create a MetaClass for {}", type.getCanonicalName());
         return new MetaClass(type);
     }
 

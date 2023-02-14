@@ -1,5 +1,8 @@
 package com.kandoka.mybatis.reflection;
 
+import com.kandoka.mybatis.log.Mark;
+import com.kandoka.mybatis.log.MarkableLogger;
+import com.kandoka.mybatis.log.MarkableLoggerFactory;
 import com.kandoka.mybatis.reflection.invoker.GetFieldInvoker;
 import com.kandoka.mybatis.reflection.invoker.Invoker;
 import com.kandoka.mybatis.reflection.invoker.MethodInvoker;
@@ -16,6 +19,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Date 2023/2/10 15:32
  */
 public class Reflector {
+
+    public static final MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.REFLECT, Reflector.class);
 
     private static boolean classCacheEnabled = true;
 
@@ -42,6 +47,7 @@ public class Reflector {
     private Map<String, String> caseInsensitivePropertyMap = new HashMap<>();
 
     public Reflector(Class<?> clazz) {
+        log.info("Create a Reflector for {}", clazz.getCanonicalName());
         this.type = clazz;
         // 加入构造函数
         addDefaultConstructor(clazz);

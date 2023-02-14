@@ -1,5 +1,8 @@
 package com.kandoka.mybatis.reflection.wrapper;
 
+import com.kandoka.mybatis.log.Mark;
+import com.kandoka.mybatis.log.MarkableLogger;
+import com.kandoka.mybatis.log.MarkableLoggerFactory;
 import com.kandoka.mybatis.reflection.MetaClass;
 import com.kandoka.mybatis.reflection.MetaObject;
 import com.kandoka.mybatis.reflection.SystemMetaObject;
@@ -16,6 +19,8 @@ import java.util.List;
  */
 public class BeanWrapper extends BaseWrapper {
 
+    private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.REFLECT, BeanWrapper.class);
+
     // 原来的对象
     private Object object;
     // 元类
@@ -25,6 +30,7 @@ public class BeanWrapper extends BaseWrapper {
         super(metaObject);
         this.object = object;
         this.metaClass = MetaClass.forClass(object.getClass());
+        log.info("Create a bean wrapper for {}", metaObject.getClass().getCanonicalName());
     }
 
     @Override

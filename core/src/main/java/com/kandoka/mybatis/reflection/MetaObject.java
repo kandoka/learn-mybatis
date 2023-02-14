@@ -1,8 +1,14 @@
 package com.kandoka.mybatis.reflection;
 
+import com.kandoka.mybatis.log.Mark;
+import com.kandoka.mybatis.log.MarkableLogger;
+import com.kandoka.mybatis.log.MarkableLoggerFactory;
 import com.kandoka.mybatis.reflection.factory.ObjectFactory;
 import com.kandoka.mybatis.reflection.property.PropertyTokenizer;
 import com.kandoka.mybatis.reflection.wrapper.*;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 
 import java.util.Collection;
 import java.util.List;
@@ -15,6 +21,8 @@ import java.util.Map;
  */
 public class MetaObject {
 
+    private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.REFLECT, MetaObject.class);
+
     // 原对象
     private Object originalObject;
     // 对象包装器
@@ -25,6 +33,10 @@ public class MetaObject {
     private ObjectWrapperFactory objectWrapperFactory;
 
     private MetaObject(Object object, ObjectFactory objectFactory, ObjectWrapperFactory objectWrapperFactory) {
+        log.info("create a MetaObject for: {}, it's ObjectFactory: {}, ObjectWrapperFactory: {}",
+                object.getClass().getCanonicalName(),
+                objectFactory.getClass().getCanonicalName(),
+                objectWrapperFactory.getClass().getCanonicalName());
         this.originalObject = object;
         this.objectFactory = objectFactory;
         this.objectWrapperFactory = objectWrapperFactory;
