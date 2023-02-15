@@ -1,5 +1,8 @@
 package com.kandoka.mybatis.mapping;
 
+import com.kandoka.mybatis.log.Mark;
+import com.kandoka.mybatis.log.MarkableLogger;
+import com.kandoka.mybatis.log.MarkableLoggerFactory;
 import com.kandoka.mybatis.session.Configuration;
 import com.kandoka.mybatis.type.JdbcType;
 
@@ -9,6 +12,8 @@ import com.kandoka.mybatis.type.JdbcType;
  * @Date 2023/2/7 15:23
  */
 public class ParameterMapping {
+
+    private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.PARAMETER, ParameterMapping.class);
 
     private Configuration configuration;
 
@@ -27,6 +32,7 @@ public class ParameterMapping {
         private ParameterMapping parameterMapping = new ParameterMapping();
 
         public Builder(Configuration configuration, String property, Class<?> javaType) {
+            log.info("Create a builder for property: {}, its type is: {}", property, javaType.getCanonicalName());
             parameterMapping.configuration = configuration;
             parameterMapping.property = property;
             parameterMapping.javaType = javaType;

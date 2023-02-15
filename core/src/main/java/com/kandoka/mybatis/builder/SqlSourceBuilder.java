@@ -1,5 +1,8 @@
 package com.kandoka.mybatis.builder;
 
+import com.kandoka.mybatis.log.Mark;
+import com.kandoka.mybatis.log.MarkableLogger;
+import com.kandoka.mybatis.log.MarkableLoggerFactory;
 import com.kandoka.mybatis.mapping.ParameterMapping;
 import com.kandoka.mybatis.mapping.SqlSource;
 import com.kandoka.mybatis.parsing.GenericTokenParser;
@@ -18,6 +21,8 @@ import java.util.Map;
  */
 public class SqlSourceBuilder extends BaseBuilder {
 
+    private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.SQL, SqlSourceBuilder.class);
+
     private static final String parameterProperties = "javaType,jdbcType,mode,numericScale,resultMap,typeHandler,jdbcTypeName";
 
     public SqlSourceBuilder(Configuration configuration) {
@@ -25,6 +30,7 @@ public class SqlSourceBuilder extends BaseBuilder {
     }
 
     public SqlSource parse(String originalSql, Class<?> parameterType, Map<String, Object> additionalParameters) {
+        log.info("Parse token like '#\\{\\}' in sql: {}", originalSql);
         ParameterMappingTokenHandler handler = new ParameterMappingTokenHandler(configuration, parameterType, additionalParameters);
         GenericTokenParser parser = new GenericTokenParser("#{", "}", handler);
         String sql = parser.parse(originalSql);

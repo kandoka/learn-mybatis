@@ -5,8 +5,6 @@ import com.kandoka.mybatis.log.MarkableLogger;
 import com.kandoka.mybatis.log.MarkableLoggerFactory;
 import com.kandoka.mybatis.session.Configuration;
 
-import java.util.Map;
-
 /**
  * @Description A wrapper to sql statement
  * @Author kandoka
@@ -14,7 +12,7 @@ import java.util.Map;
  */
 public class MappedStatement {
 
-    private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.MAPPING, MappedStatement.class);
+    private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.PARAMETER, MappedStatement.class);
 
     private Configuration configuration;
     private String id;

@@ -1,5 +1,9 @@
 package com.kandoka.mybatis.builder;
 
+import com.kandoka.mybatis.log.Mark;
+import com.kandoka.mybatis.log.MarkableLogger;
+import com.kandoka.mybatis.log.MarkableLoggerFactory;
+
 import java.util.HashMap;
 
 /**
@@ -9,6 +13,8 @@ import java.util.HashMap;
  */
 public class ParameterExpression extends HashMap<String, String> {
 
+    private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.PARAMETER, ParameterExpression.class);
+
     private static final long serialVersionUID = -2417552199605158680L;
 
     public ParameterExpression(String expression) {
@@ -16,6 +22,7 @@ public class ParameterExpression extends HashMap<String, String> {
     }
 
     private void parse(String expression) {
+        log.info("Parse expression of the parameter: {}", expression);
         // #{property,javaType=int,jdbcType=NUMERIC}
         // 首先去除空白,返回的p是第一个不是空白的字符位置
         int p = skipWS(expression, 0);

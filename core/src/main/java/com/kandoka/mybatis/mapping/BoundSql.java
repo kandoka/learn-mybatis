@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Description sql properties that bound to a statement
+ * @Description sql properties that bounded to a statement
  * @Author kandoka
  * @Date 2023/2/7 15:22
  */
