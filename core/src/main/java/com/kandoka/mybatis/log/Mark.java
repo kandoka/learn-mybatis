@@ -7,7 +7,9 @@ package com.kandoka.mybatis.log;
  */
 public enum Mark {
 
-    REFLECT("REFLECT", "反射");
+    REFLECT("REFLECT", "反射"),
+    BUILD("BUILD", "构建"),
+    MAPPING("MAPPING", "映射");
 
     Mark(String code, String text) {
         this.code = code;

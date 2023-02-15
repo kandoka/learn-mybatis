@@ -13,14 +13,24 @@ import com.kandoka.mybatis.executor.statement.StatementHandler;
 import com.kandoka.mybatis.mapping.BoundSql;
 import com.kandoka.mybatis.mapping.Environment;
 import com.kandoka.mybatis.mapping.MappedStatement;
+import com.kandoka.mybatis.reflection.MetaObject;
+import com.kandoka.mybatis.reflection.factory.DefaultObjectFactory;
+import com.kandoka.mybatis.reflection.factory.ObjectFactory;
+import com.kandoka.mybatis.reflection.wrapper.DefaultObjectWrapperFactory;
+import com.kandoka.mybatis.reflection.wrapper.ObjectWrapperFactory;
+import com.kandoka.mybatis.scripting.LanguageDriverRegistry;
+import com.kandoka.mybatis.scripting.xmltags.XMLLanguageDriver;
 import com.kandoka.mybatis.transaction.Transaction;
 import com.kandoka.mybatis.transaction.jdbc.JdbcTransactionFactory;
 import com.kandoka.mybatis.type.TypeAliasRegistry;
+import com.kandoka.mybatis.type.TypeHandlerRegistry;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -31,20 +41,38 @@ import java.util.logging.Logger;
 @Slf4j
 public class Configuration {
 
+    //环境
     protected Environment environment;
 
+    // 映射注册机
     protected MapperRegistry mapperRegistry = new MapperRegistry(this);
 
+    // 映射的语句，存在Map里
     protected final Map<String, MappedStatement> mappedStatements = new HashMap<>();
 
     // 类型别名注册机
     protected final TypeAliasRegistry typeAliasRegistry = new TypeAliasRegistry();
+
+    protected final LanguageDriverRegistry languageRegistry = new LanguageDriverRegistry();
+
+    // 类型处理器注册机
+    protected final TypeHandlerRegistry typeHandlerRegistry = new TypeHandlerRegistry();
+
+    // 对象工厂和对象包装器工厂
+    protected ObjectFactory objectFactory = new DefaultObjectFactory();
+    protected ObjectWrapperFactory objectWrapperFactory = new DefaultObjectWrapperFactory();
+
+    protected final Set<String> loadedResources = new HashSet<>();
+
+    protected String databaseId;
 
     public Configuration() {
         typeAliasRegistry.registerAlias("JDBC", JdbcTransactionFactory.class);
         typeAliasRegistry.registerAlias("DRUID", DruidDataSourceFactory.class);
         typeAliasRegistry.registerAlias("UNPOOLED", UnpooledDataSourceFactory.class);
         typeAliasRegistry.registerAlias("POOLED", PooledDataSourceFactory.class);
+
+        languageRegistry.setDefaultDriverClass(XMLLanguageDriver.class);
     }
 
     public <T> void addMapper(Class<T> type) {
@@ -108,5 +136,31 @@ public class Configuration {
     public StatementHandler newStatementHandler(Executor executor, MappedStatement mappedStatement,
                                                 Object parameter, ResultHandler resultHandler, BoundSql boundSql) {
         return new PreparedStatementHandler(executor, mappedStatement, parameter, resultHandler, boundSql);
+    }
+
+    // 创建元对象
+    public MetaObject newMetaObject(Object object) {
+        return MetaObject.forObject(object, objectFactory, objectWrapperFactory);
+    }
+
+    // 类型处理器注册机
+    public TypeHandlerRegistry getTypeHandlerRegistry() {
+        return typeHandlerRegistry;
+    }
+
+    public boolean isResourceLoaded(String resource) {
+        return loadedResources.contains(resource);
+    }
+
+    public void addLoadedResource(String resource) {
+        loadedResources.add(resource);
+    }
+
+    public LanguageDriverRegistry getLanguageRegistry() {
+        return languageRegistry;
+    }
+
+    public Object getDatabaseId() {
+        return databaseId;
     }
 }

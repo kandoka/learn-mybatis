@@ -1,5 +1,8 @@
 package com.kandoka.mybatis.mapping;
 
+import com.kandoka.mybatis.log.Mark;
+import com.kandoka.mybatis.log.MarkableLogger;
+import com.kandoka.mybatis.log.MarkableLoggerFactory;
 import com.kandoka.mybatis.session.Configuration;
 
 import java.util.Map;
@@ -10,21 +13,30 @@ import java.util.Map;
  * @Date 2023/2/6 17:57
  */
 public class MappedStatement {
+
+    private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.MAPPING, MappedStatement.class);
+
     private Configuration configuration;
     private String id;
     private SqlCommandType sqlCommandType;
+    private SqlSource sqlSource;
+    Class<?> resultType;
 
-    private BoundSql boundSql;
+    MappedStatement() {
+        // constructor disabled
+    }
 
     public static class Builder {
 
         private MappedStatement mappedStatement = new MappedStatement();
 
-        public Builder(Configuration configuration, String id, SqlCommandType sqlCommandType, BoundSql boundSql) {
+        public Builder(Configuration configuration, String id, SqlCommandType sqlCommandType, SqlSource sqlSource, Class<?> resultType) {
+            log.info("Create a builder for mapper statement: {}, return type is: {}", id, resultType.getCanonicalName());
             mappedStatement.configuration = configuration;
             mappedStatement.id = id;
             mappedStatement.sqlCommandType = sqlCommandType;
-            mappedStatement.boundSql = boundSql;
+            mappedStatement.sqlSource = sqlSource;
+            mappedStatement.resultType = resultType;
         }
 
         public MappedStatement build() {
@@ -46,7 +58,11 @@ public class MappedStatement {
         return sqlCommandType;
     }
 
-    public BoundSql getBoundSql() {
-        return boundSql;
+    public SqlSource getSqlSource() {
+        return sqlSource;
+    }
+
+    public Class<?> getResultType() {
+        return resultType;
     }
 }

@@ -3,6 +3,9 @@ package com.kandoka.mybatis.builder.xml;
 import com.kandoka.mybatis.builder.BaseBuilder;
 import com.kandoka.mybatis.datasource.DataSourceFactory;
 import com.kandoka.mybatis.io.Resources;
+import com.kandoka.mybatis.log.Mark;
+import com.kandoka.mybatis.log.MarkableLogger;
+import com.kandoka.mybatis.log.MarkableLoggerFactory;
 import com.kandoka.mybatis.mapping.BoundSql;
 import com.kandoka.mybatis.mapping.Environment;
 import com.kandoka.mybatis.mapping.MappedStatement;
@@ -18,18 +21,20 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
 import javax.sql.DataSource;
+import java.io.InputStream;
 import java.io.Reader;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @Description TODO
+ * @Description global config builder
  * @Author kandoka
  * @Date 2023/2/6 17:55
  */
-@Slf4j
 public class XMLConfigBuilder extends BaseBuilder {
+
+    private static final MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.BUILD, XMLConfigBuilder.class);
 
     private Element root;
 
@@ -112,59 +117,23 @@ public class XMLConfigBuilder extends BaseBuilder {
         }
     }
 
-    /**
-     * parse Mappers
-     * @param mappers
-     * @throws Exception
+    /*
+     * <mappers>
+     *	 <mapper resource="org/mybatis/builder/AuthorMapper.xml"/>
+     *	 <mapper resource="org/mybatis/builder/BlogMapper.xml"/>
+     *	 <mapper resource="org/mybatis/builder/PostMapper.xml"/>
+     * </mappers>
      */
     private void mapperElement(Element mappers) throws Exception {
+        log.info("Parse <mappers/> in config xml file, and find mapper xml resources");
         List<Element> mapperList = mappers.elements("mapper");
-        for (Element mapperE : mapperList) {
-            //get mapper resource from resource attr in a mapper element;
-            String resource = mapperE.attributeValue("resource");
-            Reader reader = Resources.getResourceAsReader(resource);
-            SAXReader saxReader = new SAXReader();
+        for (Element e : mapperList) {
+            String resource = e.attributeValue("resource");
+            InputStream inputStream = Resources.getResourceAsStream(resource);
 
-            //read file of mapper resource
-            Document document = saxReader.read(new InputSource(reader));
-            Element root = document.getRootElement();
-            //命名空间
-            String namespace = root.attributeValue("namespace");
-
-            // SELECT
-            List<Element> selectNodes = root.elements("select");
-            for (Element node : selectNodes) {
-                String id = node.attributeValue("id");
-                String parameterType = node.attributeValue("parameterType");
-                String resultType = node.attributeValue("resultType");
-                String sql = node.getText();
-
-                // ? 匹配 parse parameters
-                Map<Integer, String> parameter = new HashMap<>();
-                Pattern pattern = Pattern.compile("(#\\{(.*?)})");
-                Matcher matcher = pattern.matcher(sql);
-                for (int i = 1; matcher.find(); i++) {
-                    String g1 = matcher.group(1);
-                    String g2 = matcher.group(2);
-                    parameter.put(i, g2);
-                    sql = sql.replace(g1, "?");
-                }
-
-                String msId = namespace + "." + id;
-                String nodeName = node.getName();
-                SqlCommandType sqlCommandType = SqlCommandType.valueOf(nodeName.toUpperCase(Locale.ENGLISH));
-
-                BoundSql boundSql = new BoundSql(sql, parameter, parameterType, resultType);
-
-                MappedStatement mappedStatement = new MappedStatement.Builder(configuration, msId, sqlCommandType, boundSql).build();
-                // 添加解析 SQL
-                log.info("add mapper statement info into configuration: {}", mappedStatement.getId());
-                configuration.addMappedStatement(mappedStatement);
-            }
-
-            // 注册Mapper映射器
-            log.info("add mapper info into configuration: {}", namespace);
-            configuration.addMapper(Resources.classForName(namespace));
+            // 在for循环里每个mapper都重新new一个XMLMapperBuilder，来解析
+            XMLMapperBuilder mapperParser = new XMLMapperBuilder(inputStream, configuration, resource);
+            mapperParser.parse();
         }
     }
 }

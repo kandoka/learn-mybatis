@@ -20,4 +20,8 @@ public class MarkableLogger {
     public void info(String format, Object... arguments) {
         this.logger.info("[" + mark.code + "] - " + format, arguments);
     }
+
+    public void error(String format, Object... arguments) {
+        this.logger.error("[" + mark.code + "] - " + format, arguments);
+    }
 }
