@@ -1,11 +1,17 @@
 package com.kandoka.mybatis.parsing;
 
+import com.kandoka.mybatis.log.Mark;
+import com.kandoka.mybatis.log.MarkableLogger;
+import com.kandoka.mybatis.log.MarkableLoggerFactory;
+
 /**
  * @Description Parser to parse tokens like "${}"
  * @Author kandoka
  * @Date 2023/2/14 17:22
  */
 public class GenericTokenParser {
+
+    private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.SQL, GenericTokenParser.class);
 
     // 有一个开始和结束记号
     private final String openToken;
@@ -54,6 +60,7 @@ public class GenericTokenParser {
                 builder.append(src, offset, src.length - offset);
             }
         }
+        log.info("Parse tokens, \nbefore: {}, \nafter: {}", text, builder);
         return builder.toString();
     }
 

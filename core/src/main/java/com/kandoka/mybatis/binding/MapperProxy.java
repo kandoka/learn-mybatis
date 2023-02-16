@@ -1,6 +1,9 @@
 package com.kandoka.mybatis.binding;
 
 import cn.hutool.core.util.StrUtil;
+import com.kandoka.mybatis.log.Mark;
+import com.kandoka.mybatis.log.MarkableLogger;
+import com.kandoka.mybatis.log.MarkableLoggerFactory;
 import com.kandoka.mybatis.session.SqlSession;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,8 +17,9 @@ import java.util.Map;
  * @Author kandoka
  * @Date 2023/2/6 11:06
  */
-@Slf4j
 public class MapperProxy<T> implements InvocationHandler, Serializable {
+
+    private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.EXECUTE, MapperProxy.class);
 
     private static final long serialVersionUID = -5535484319931298612L;
 

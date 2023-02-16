@@ -1,7 +1,11 @@
 package com.kandoka.mybatis.scripting.xmltags;
 
+import com.kandoka.mybatis.executor.resultset.ParameterHandler;
+import com.kandoka.mybatis.mapping.BoundSql;
+import com.kandoka.mybatis.mapping.MappedStatement;
 import com.kandoka.mybatis.mapping.SqlSource;
 import com.kandoka.mybatis.scripting.LanguageDriver;
+import com.kandoka.mybatis.scripting.defaults.DefaultParameterHandler;
 import com.kandoka.mybatis.session.Configuration;
 import org.dom4j.Element;
 
@@ -19,4 +23,8 @@ public class XMLLanguageDriver implements LanguageDriver {
         return builder.parseScriptNode();
     }
 
+    @Override
+    public ParameterHandler createParameterHandler(MappedStatement mappedStatement, Object parameterObject, BoundSql boundSql) {
+        return new DefaultParameterHandler(mappedStatement, parameterObject, boundSql);
+    }
 }

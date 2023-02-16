@@ -7,6 +7,7 @@ import com.kandoka.mybatis.datasource.unpooled.UnpooledDataSourceFactory;
 import com.kandoka.mybatis.executor.Executor;
 import com.kandoka.mybatis.executor.SimpleExecutor;
 import com.kandoka.mybatis.executor.resultset.DefaultResultSetHandler;
+import com.kandoka.mybatis.executor.resultset.ParameterHandler;
 import com.kandoka.mybatis.executor.resultset.ResultSetHandler;
 import com.kandoka.mybatis.executor.statement.PreparedStatementHandler;
 import com.kandoka.mybatis.executor.statement.StatementHandler;
@@ -18,6 +19,7 @@ import com.kandoka.mybatis.reflection.factory.DefaultObjectFactory;
 import com.kandoka.mybatis.reflection.factory.ObjectFactory;
 import com.kandoka.mybatis.reflection.wrapper.DefaultObjectWrapperFactory;
 import com.kandoka.mybatis.reflection.wrapper.ObjectWrapperFactory;
+import com.kandoka.mybatis.scripting.LanguageDriver;
 import com.kandoka.mybatis.scripting.LanguageDriverRegistry;
 import com.kandoka.mybatis.scripting.xmltags.XMLLanguageDriver;
 import com.kandoka.mybatis.transaction.Transaction;
@@ -143,6 +145,13 @@ public class Configuration {
         return MetaObject.forObject(object, objectFactory, objectWrapperFactory);
     }
 
+    public ParameterHandler newParameterHandler(MappedStatement mappedStatement, Object parameterObject, BoundSql boundSql) {
+        // 创建参数处理器
+        ParameterHandler parameterHandler = mappedStatement.getLang().createParameterHandler(mappedStatement, parameterObject, boundSql);
+        // 插件的一些参数，也是在这里处理，暂时不添加这部分内容 interceptorChain.pluginAll(parameterHandler);
+        return parameterHandler;
+    }
+
     // 类型处理器注册机
     public TypeHandlerRegistry getTypeHandlerRegistry() {
         return typeHandlerRegistry;
@@ -162,5 +171,9 @@ public class Configuration {
 
     public Object getDatabaseId() {
         return databaseId;
+    }
+
+    public LanguageDriver getDefaultScriptingLanguageInstance() {
+        return languageRegistry.getDefaultDriver();
     }
 }

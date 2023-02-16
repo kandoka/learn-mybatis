@@ -2,10 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kandoka.mybatis.test.dao.IUserDao">
 
-    <select id="queryUserById" parameterType="java.lang.String" resultType="com.kandoka.mybatis.test.po.User">
+    <select id="queryUserById" parameterType="java.lang.Long" resultType="com.kandoka.mybatis.test.po.User">
         SELECT ID_ as id, CODE_ as code, FULLNAME_ as fullname, CREATED_TIME_ as createdTime
         FROM org_user
-        where ID_ = #{id}
+        where ID_ = #{id,jdbcType=VARCHAR}
     </select>
-
+    <select id="queryUser" parameterType="com.kandoka.mybatis.test.po.User" resultType="com.kandoka.mybatis.test.po.User">
+        SELECT ID_ as id, CODE_ as code, FULLNAME_ as fullname, CREATED_TIME_ as createdTime
+        FROM org_user
+        where ID_ = #{id,jdbcType=VARCHAR} and CODE_ = #{code,jdbcType=VARCHAR}
+    </select>
 </mapper>

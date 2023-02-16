@@ -1,7 +1,11 @@
 package com.kandoka.mybatis.executor.statement;
 
 import com.kandoka.mybatis.executor.Executor;
+import com.kandoka.mybatis.executor.resultset.ParameterHandler;
 import com.kandoka.mybatis.executor.resultset.ResultSetHandler;
+import com.kandoka.mybatis.log.Mark;
+import com.kandoka.mybatis.log.MarkableLogger;
+import com.kandoka.mybatis.log.MarkableLoggerFactory;
 import com.kandoka.mybatis.mapping.BoundSql;
 import com.kandoka.mybatis.mapping.MappedStatement;
 import com.kandoka.mybatis.session.Configuration;
@@ -18,8 +22,9 @@ import java.util.List;
  * @Author kandoka
  * @Date 2023/2/9 15:21
  */
-@Slf4j
 public abstract class BaseStatementHandler implements StatementHandler {
+
+    private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.STATEMENT, BaseStatementHandler.class);
 
     protected final Configuration configuration;
 
@@ -30,6 +35,7 @@ public abstract class BaseStatementHandler implements StatementHandler {
     protected final Object parameterObject;
 
     protected final ResultSetHandler resultSetHandler;
+    protected final ParameterHandler parameterHandler;
 
     protected BoundSql boundSql;
 
@@ -41,6 +47,7 @@ public abstract class BaseStatementHandler implements StatementHandler {
         this.boundSql = boundSql;
         this.parameterObject = parameterObject;
         this.resultSetHandler = configuration.newResultSetHandler(executor, mappedStatement, boundSql);
+        this.parameterHandler = configuration.newParameterHandler(mappedStatement, parameterObject, boundSql);
     }
 
 

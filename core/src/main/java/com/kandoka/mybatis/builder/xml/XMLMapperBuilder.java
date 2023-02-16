@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class XMLMapperBuilder extends BaseBuilder {
 
-    private static final MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.BUILD, XMLMapperBuilder.class);
+    private static final MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.CONFIG, XMLMapperBuilder.class);
 
     private Element element;
     private String resource;

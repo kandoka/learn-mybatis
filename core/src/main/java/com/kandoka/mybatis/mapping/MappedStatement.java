@@ -3,6 +3,7 @@ package com.kandoka.mybatis.mapping;
 import com.kandoka.mybatis.log.Mark;
 import com.kandoka.mybatis.log.MarkableLogger;
 import com.kandoka.mybatis.log.MarkableLoggerFactory;
+import com.kandoka.mybatis.scripting.LanguageDriver;
 import com.kandoka.mybatis.session.Configuration;
 
 /**
@@ -19,6 +20,7 @@ public class MappedStatement {
     private SqlCommandType sqlCommandType;
     private SqlSource sqlSource;
     Class<?> resultType;
+    private LanguageDriver lang;
 
     MappedStatement() {
         // constructor disabled
@@ -35,6 +37,7 @@ public class MappedStatement {
             mappedStatement.sqlCommandType = sqlCommandType;
             mappedStatement.sqlSource = sqlSource;
             mappedStatement.resultType = resultType;
+            mappedStatement.lang = configuration.getDefaultScriptingLanguageInstance();
         }
 
         public MappedStatement build() {
@@ -62,5 +65,9 @@ public class MappedStatement {
 
     public Class<?> getResultType() {
         return resultType;
+    }
+
+    public LanguageDriver getLang() {
+        return lang;
     }
 }

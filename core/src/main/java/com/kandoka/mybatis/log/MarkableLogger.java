@@ -18,10 +18,20 @@ public class MarkableLogger {
     }
 
     public void info(String format, Object... arguments) {
+        if (!isPrintableMark()) {
+            return;
+        }
         this.logger.info("[" + mark.code + "] - " + format, arguments);
     }
 
     public void error(String format, Object... arguments) {
+        if (isPrintableMark()) {
+            return;
+        }
         this.logger.error("[" + mark.code + "] - " + format, arguments);
+    }
+
+    private boolean isPrintableMark() {
+        return !this.mark.equals(Mark.REFLECT);
     }
 }

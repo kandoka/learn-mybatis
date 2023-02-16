@@ -5,9 +5,11 @@ import com.kandoka.mybatis.log.MarkableLogger;
 import com.kandoka.mybatis.log.MarkableLoggerFactory;
 import com.kandoka.mybatis.session.Configuration;
 import com.kandoka.mybatis.type.JdbcType;
+import com.kandoka.mybatis.type.TypeHandler;
+import com.kandoka.mybatis.type.TypeHandlerRegistry;
 
 /**
- * @Description A wrapper for sql parameter
+ * @Description A mapping for sql parameter among its java type, jdbc type and type handler
  * @Author kandoka
  * @Date 2023/2/7 15:23
  */
@@ -23,6 +25,8 @@ public class ParameterMapping {
     private Class<?> javaType = Object.class;
     // jdbcType=NUMERIC
     private JdbcType jdbcType;
+    //type handler of this type
+    private TypeHandler<?> typeHandler;
 
     private ParameterMapping() {
     }
@@ -49,6 +53,14 @@ public class ParameterMapping {
         }
 
         public ParameterMapping build() {
+            //set a type handler for the parameter
+            if (parameterMapping.typeHandler == null && parameterMapping.javaType != null) {
+                Configuration configuration = parameterMapping.configuration;
+                TypeHandlerRegistry typeHandlerRegistry = configuration.getTypeHandlerRegistry();
+                log.info("Set type handler where java type is: {}, jdbc type is: {}", parameterMapping.javaType, parameterMapping.jdbcType);
+                parameterMapping.typeHandler = typeHandlerRegistry.getTypeHandler(parameterMapping.javaType, parameterMapping.jdbcType);
+            }
+
             return parameterMapping;
         }
     }
@@ -69,4 +81,7 @@ public class ParameterMapping {
         return jdbcType;
     }
 
+    public TypeHandler<?> getTypeHandler() {
+        return typeHandler;
+    }
 }

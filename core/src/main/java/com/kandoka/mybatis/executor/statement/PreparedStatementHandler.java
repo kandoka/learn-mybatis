@@ -1,6 +1,9 @@
 package com.kandoka.mybatis.executor.statement;
 
 import com.kandoka.mybatis.executor.Executor;
+import com.kandoka.mybatis.log.Mark;
+import com.kandoka.mybatis.log.MarkableLogger;
+import com.kandoka.mybatis.log.MarkableLoggerFactory;
 import com.kandoka.mybatis.mapping.BoundSql;
 import com.kandoka.mybatis.mapping.MappedStatement;
 import com.kandoka.mybatis.session.ResultHandler;
@@ -13,12 +16,13 @@ import java.sql.Statement;
 import java.util.List;
 
 /**
- * @Description TODO
+ * @Description Handler for prepared statement
  * @Author kandoka
  * @Date 2023/2/9 15:21
  */
-@Slf4j
-public class PreparedStatementHandler extends BaseStatementHandler{
+public class PreparedStatementHandler extends BaseStatementHandler {
+
+    private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.STATEMENT, PreparedStatementHandler.class);
 
     public PreparedStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, ResultHandler resultHandler, BoundSql boundSql) {
         super(executor, mappedStatement, parameterObject, resultHandler, boundSql);
@@ -32,9 +36,8 @@ public class PreparedStatementHandler extends BaseStatementHandler{
 
     @Override
     public void parameterize(Statement statement) throws SQLException {
-        PreparedStatement ps = (PreparedStatement) statement;
-        ps.setLong(1, Long.parseLong(((Object[]) parameterObject)[0].toString()));
         log.info("Parameterizing for the statement: {}", parameterObject);
+        parameterHandler.setParameters((PreparedStatement) statement);
     }
 
     @Override

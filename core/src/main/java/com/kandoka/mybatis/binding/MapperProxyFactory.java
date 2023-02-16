@@ -1,5 +1,8 @@
 package com.kandoka.mybatis.binding;
 
+import com.kandoka.mybatis.log.Mark;
+import com.kandoka.mybatis.log.MarkableLogger;
+import com.kandoka.mybatis.log.MarkableLoggerFactory;
 import com.kandoka.mybatis.session.SqlSession;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,9 +16,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Author kandoka
  * @Date 2023/2/6 11:06
  */
-@Slf4j
 public class MapperProxyFactory<T> {
 
+    private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.EXECUTE, MapperProxyFactory.class);
     /**
      * Mapper.class
      */

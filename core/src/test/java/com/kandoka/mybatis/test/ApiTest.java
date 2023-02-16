@@ -84,4 +84,23 @@ public class ApiTest {
         long end = System.currentTimeMillis();
         log.info("测试结果：{} ms", end - start);
     }
+
+    @Test
+    public void test_prarameterHandler() throws IOException {
+        // 1. 从SqlSessionFactory中获取SqlSession
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsReader("mybatis-config-datasource.xml"));
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        // 2. 获取映射器对象
+        IUserDao userDao = sqlSession.getMapper(IUserDao.class);
+
+        // 3. 测试验证
+        long start = System.currentTimeMillis();
+        User queryPram = new User();
+        queryPram.setId("1");
+        queryPram.setCode("admin");
+        User user = userDao.queryUser(queryPram);
+        long end = System.currentTimeMillis();
+        log.info("测试结果：{} ms，{}", end - start, user);
+    }
 }

@@ -6,26 +6,19 @@ import com.kandoka.mybatis.io.Resources;
 import com.kandoka.mybatis.log.Mark;
 import com.kandoka.mybatis.log.MarkableLogger;
 import com.kandoka.mybatis.log.MarkableLoggerFactory;
-import com.kandoka.mybatis.mapping.BoundSql;
 import com.kandoka.mybatis.mapping.Environment;
-import com.kandoka.mybatis.mapping.MappedStatement;
-import com.kandoka.mybatis.mapping.SqlCommandType;
 import com.kandoka.mybatis.session.Configuration;
 import com.kandoka.mybatis.transaction.TransactionFactory;
-import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
 import javax.sql.DataSource;
 import java.io.InputStream;
 import java.io.Reader;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @Description global config builder
@@ -34,7 +27,7 @@ import java.util.regex.Pattern;
  */
 public class XMLConfigBuilder extends BaseBuilder {
 
-    private static final MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.BUILD, XMLConfigBuilder.class);
+    private static final MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.CONFIG, XMLConfigBuilder.class);
 
     private Element root;
 

@@ -1,5 +1,8 @@
 package com.kandoka.mybatis.mapping;
 
+import com.kandoka.mybatis.log.Mark;
+import com.kandoka.mybatis.log.MarkableLogger;
+import com.kandoka.mybatis.log.MarkableLoggerFactory;
 import com.kandoka.mybatis.reflection.MetaObject;
 import com.kandoka.mybatis.session.Configuration;
 
@@ -8,11 +11,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Description sql properties that bounded to a statement
+ * @Description Sql properties that bounded to a statement. As a final product after parsing a sql.
  * @Author kandoka
  * @Date 2023/2/7 15:22
  */
 public class BoundSql {
+
+    private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.SQL, BoundSql.class);
+
     private String sql;
     private List<ParameterMapping> parameterMappings;
     private Object parameterObject;
@@ -20,6 +26,7 @@ public class BoundSql {
     private MetaObject metaParameters;
 
     public BoundSql(Configuration configuration, String sql, List<ParameterMapping> parameterMappings, Object parameterObject) {
+        log.info("Create a bound for sql: {}, including its parameter mappings and actual values", sql);
         this.sql = sql;
         this.parameterMappings = parameterMappings;
         this.parameterObject = parameterObject;

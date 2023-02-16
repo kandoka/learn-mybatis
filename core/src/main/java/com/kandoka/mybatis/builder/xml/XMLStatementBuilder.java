@@ -20,7 +20,7 @@ import java.util.Locale;
  */
 public class XMLStatementBuilder extends BaseBuilder {
 
-    private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.BUILD, XMLStatementBuilder.class);
+    private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.CONFIG, XMLStatementBuilder.class);
 
     private String currentNamespace;
     private Element element;

@@ -8,9 +8,13 @@ package com.kandoka.mybatis.log;
 public enum Mark {
 
     REFLECT("REFLECT", "反射"),
-    BUILD("BUILD", "构建"),
+    CONFIG("CONFIG", "构建"),
     PARAMETER("PARAMETER", "参数"),
-    SQL("SQL", "SQL语句");
+    STATEMENT("STATEMENT", "语句"),
+    SQL("SQL", "SQL语句"),
+    SESSION("SESSION", "会话"),
+    EXECUTE("EXECUTE", "执行"),
+    RESULT("RESULT", "结果");
 
     Mark(String code, String text) {
         this.code = code;

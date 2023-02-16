@@ -5,7 +5,7 @@ import com.kandoka.mybatis.log.MarkableLogger;
 import com.kandoka.mybatis.log.MarkableLoggerFactory;
 import com.kandoka.mybatis.session.Configuration;
 import com.kandoka.mybatis.type.TypeAliasRegistry;
-import lombok.extern.slf4j.Slf4j;
+import com.kandoka.mybatis.type.TypeHandlerRegistry;
 
 /**
  * @Description Base builder
@@ -14,16 +14,17 @@ import lombok.extern.slf4j.Slf4j;
  */
 public class BaseBuilder {
 
-    private static final MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.BUILD, BaseBuilder.class);
+    private static final MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.CONFIG, BaseBuilder.class);
 
     protected final  Configuration configuration;
-
     protected final TypeAliasRegistry typeAliasRegistry;
+    protected final TypeHandlerRegistry typeHandlerRegistry;
+
 
     public BaseBuilder(Configuration configuration) {
-        log.info("start building config via resources");
         this.configuration = configuration;
         this.typeAliasRegistry = this.configuration.getTypeAliasRegistry();
+        this.typeHandlerRegistry = this.configuration.getTypeHandlerRegistry();
     }
 
     protected Class<?> resolveAlias(String alias) {

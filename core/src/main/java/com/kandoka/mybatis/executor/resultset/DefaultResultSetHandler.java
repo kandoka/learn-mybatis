@@ -1,6 +1,9 @@
 package com.kandoka.mybatis.executor.resultset;
 
 import com.kandoka.mybatis.executor.Executor;
+import com.kandoka.mybatis.log.Mark;
+import com.kandoka.mybatis.log.MarkableLogger;
+import com.kandoka.mybatis.log.MarkableLoggerFactory;
 import com.kandoka.mybatis.mapping.BoundSql;
 import com.kandoka.mybatis.mapping.MappedStatement;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +18,9 @@ import java.util.List;
  * @Author kandoka
  * @Date 2023/2/9 15:21
  */
-@Slf4j
 public class DefaultResultSetHandler implements ResultSetHandler {
+
+    private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.RESULT, DefaultResultSetHandler.class);
 
     private final BoundSql boundSql;
     private final MappedStatement mappedStatement;

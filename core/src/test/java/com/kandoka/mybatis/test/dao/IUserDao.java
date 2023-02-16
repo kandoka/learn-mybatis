@@ -12,4 +12,6 @@ public interface IUserDao {
 //    Integer queryUserAge(String userId);
 
     User queryUserById(Long id);
+
+    User queryUser(User user);
 }

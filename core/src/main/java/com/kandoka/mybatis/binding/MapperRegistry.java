@@ -2,6 +2,9 @@ package com.kandoka.mybatis.binding;
 
 import cn.hutool.core.lang.ClassScanner;
 import cn.hutool.core.util.StrUtil;
+import com.kandoka.mybatis.log.Mark;
+import com.kandoka.mybatis.log.MarkableLogger;
+import com.kandoka.mybatis.log.MarkableLoggerFactory;
 import com.kandoka.mybatis.session.Configuration;
 import com.kandoka.mybatis.session.SqlSession;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +19,9 @@ import java.util.Set;
  * @Author kandoka
  * @Date 2023/2/6 16:37
  */
-@Slf4j
 public class MapperRegistry {
+
+    private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.EXECUTE, MapperRegistry.class);
 
     private Configuration configuration;
 

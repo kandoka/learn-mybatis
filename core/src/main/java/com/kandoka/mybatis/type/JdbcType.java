@@ -15,6 +15,7 @@ public enum JdbcType {
     FLOAT(Types.FLOAT),
     DOUBLE(Types.DOUBLE),
     DECIMAL(Types.DECIMAL),
+    CHAR(Types.CHAR),
     VARCHAR(Types.VARCHAR),
     TIMESTAMP(Types.TIMESTAMP);
 

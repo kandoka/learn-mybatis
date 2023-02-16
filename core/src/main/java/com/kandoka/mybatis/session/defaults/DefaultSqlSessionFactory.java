@@ -2,6 +2,9 @@ package com.kandoka.mybatis.session.defaults;
 
 import com.kandoka.mybatis.binding.MapperRegistry;
 import com.kandoka.mybatis.executor.Executor;
+import com.kandoka.mybatis.log.Mark;
+import com.kandoka.mybatis.log.MarkableLogger;
+import com.kandoka.mybatis.log.MarkableLoggerFactory;
 import com.kandoka.mybatis.mapping.Environment;
 import com.kandoka.mybatis.session.Configuration;
 import com.kandoka.mybatis.session.SqlSession;
@@ -18,8 +21,9 @@ import java.sql.SQLException;
  * @Author kandoka
  * @Date 2023/2/6 16:38
  */
-@Slf4j
 public class DefaultSqlSessionFactory implements SqlSessionFactory {
+
+    private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.SESSION, DefaultSqlSessionFactory.class);
 
     private final Configuration configuration;
 

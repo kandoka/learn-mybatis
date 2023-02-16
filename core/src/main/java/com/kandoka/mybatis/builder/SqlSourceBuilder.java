@@ -7,6 +7,7 @@ import com.kandoka.mybatis.mapping.ParameterMapping;
 import com.kandoka.mybatis.mapping.SqlSource;
 import com.kandoka.mybatis.parsing.GenericTokenParser;
 import com.kandoka.mybatis.parsing.TokenHandler;
+import com.kandoka.mybatis.reflection.MetaClass;
 import com.kandoka.mybatis.reflection.MetaObject;
 import com.kandoka.mybatis.session.Configuration;
 
@@ -27,6 +28,7 @@ public class SqlSourceBuilder extends BaseBuilder {
 
     public SqlSourceBuilder(Configuration configuration) {
         super(configuration);
+        log.info("create a sql source builder");
     }
 
     public SqlSource parse(String originalSql, Class<?> parameterType, Map<String, Object> additionalParameters) {
@@ -46,6 +48,7 @@ public class SqlSourceBuilder extends BaseBuilder {
 
         public ParameterMappingTokenHandler(Configuration configuration, Class<?> parameterType, Map<String, Object> additionalParameters) {
             super(configuration);
+            log.info("start building token handler");
             this.parameterType = parameterType;
             this.metaParameters = configuration.newMetaObject(additionalParameters);
         }
@@ -60,12 +63,31 @@ public class SqlSourceBuilder extends BaseBuilder {
             return "?";
         }
 
-        // 构建参数映射
+        /**
+         * 这一部分就是对参数的细化处理，构建出参数的映射关系，首先是 if 判断对应的参数类型是否在
+         * TypeHandlerRegistry 注册器中，如果不在则拆解对象，按属性进行获取 propertyType 的操作。
+         * @param content
+         * @return
+         */
         private ParameterMapping buildParameterMapping(String content) {
             // 先解析参数映射,就是转化成一个 HashMap | #{favouriteSection,jdbcType=VARCHAR}
             Map<String, String> propertiesMap = new ParameterExpression(content);
             String property = propertiesMap.get("property");
-            Class<?> propertyType = parameterType;
+
+            Class<?> propertyType;
+            if (typeHandlerRegistry.hasTypeHandler(parameterType)) {
+                propertyType = this.parameterType;
+            } else if (property != null) {
+                MetaClass metaClass = MetaClass.forClass(parameterType);
+                if (metaClass.hasGetter(property)) {
+                    propertyType = metaClass.getGetterType(property);
+                } else {
+                    propertyType = Object.class;
+                }
+            } else {
+                propertyType = Object.class;
+            }
+
             ParameterMapping.Builder builder = new ParameterMapping.Builder(configuration, property, propertyType);
             return builder.build();
         }
