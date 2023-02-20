@@ -40,7 +40,6 @@ import java.util.logging.Logger;
  * @Author kandoka
  * @Date 2023/2/6 17:58
  */
-@Slf4j
 public class Configuration {
 
     //环境

@@ -50,6 +50,7 @@ public class XMLMapperBuilder extends BaseBuilder {
             // 标记一下，已经加载过了
             configuration.addLoadedResource(resource);
             // 绑定映射器到namespace
+            log.info("bind namespace {} to config", currentNamespace);
             configuration.addMapper(Resources.classForName(currentNamespace));
         }
     }

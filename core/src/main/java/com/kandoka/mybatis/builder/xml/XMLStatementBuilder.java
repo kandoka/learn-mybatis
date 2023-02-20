@@ -32,21 +32,37 @@ public class XMLStatementBuilder extends BaseBuilder {
         log.info("Create a statement builder for statement: {}", element.attributeValue("id"));
     }
 
-    //解析语句(select|insert|update|delete)
-    //<select
-    //  id="selectPerson"
-    //  parameterType="int"
-    //  parameterMap="deprecated"
-    //  resultType="hashmap"
-    //  resultMap="personResultMap"
-    //  flushCache="false"
-    //  useCache="true"
-    //  timeout="10000"
-    //  fetchSize="256"
-    //  statementType="PREPARED"
-    //  resultSetType="FORWARD_ONLY">
-    //  SELECT * FROM PERSON WHERE ID = #{id}
-    //</select>
+    /**
+     * 解析语句(select|insert|update|delete)<br/>
+     * <p>
+     * <ul>
+     * <li>1. 拆解出parameterType、resultType等属性
+     * <li>2. 使用配置的语言驱动器（com.mysql.jdbc.Driver）解析具体的SQL语句
+     * <li>3. 最终产物为 {@link MappedStatement} 放入到 {@link Configuration}中
+     * <ul/>
+     * </p>
+     * <p>
+     * 待解析样例：
+     * <pre>
+     {@code
+         <select
+            id="selectPerson"
+            parameterType="int"
+            parameterMap="deprecated"
+            resultType="hashmap"
+            resultMap="personResultMap"
+            flushCache="false"
+            useCache="true"
+            timeout="10000"
+            fetchSize="256"
+            statementType="PREPARED"
+            resultSetType="FORWARD_ONLY">
+                SELECT * FROM PERSON WHERE ID = #{id}
+         </select>
+     }
+     <pre/>
+     <p/>
+     **/
     public void parseStatementNode() {
         String id = element.attributeValue("id");
         log.info("Parse statement in <mapper/>, statement id: {}", id);
