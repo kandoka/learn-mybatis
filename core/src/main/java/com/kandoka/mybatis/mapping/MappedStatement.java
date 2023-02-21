@@ -32,12 +32,17 @@ public class MappedStatement {
         // constructor disabled
     }
 
+    public BoundSql getBoundSql(Object parameterObject) {
+        // 调用 SqlSource#getBoundSql
+        return sqlSource.getBoundSql(parameterObject);
+    }
+
     public static class Builder {
 
         private MappedStatement mappedStatement = new MappedStatement();
 
         public Builder(Configuration configuration, String id, SqlCommandType sqlCommandType, SqlSource sqlSource, Class<?> resultType) {
-            log.info("Create a builder for mapper statement: {}, return type is: {}", id, resultType.getCanonicalName());
+            log.info("Create a builder for mapper statement: {}, return type is: {}", id, resultType == null ? null : resultType.getCanonicalName());
             mappedStatement.configuration = configuration;
             mappedStatement.id = id;
             mappedStatement.sqlCommandType = sqlCommandType;

@@ -7,10 +7,12 @@ import com.kandoka.mybatis.session.SqlSessionFactoryBuilder;
 import com.kandoka.mybatis.test.dao.IUserDao;
 import com.kandoka.mybatis.test.po.User;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.List;
 
 /**
  * @Description TODO
@@ -19,6 +21,15 @@ import java.io.Reader;
  */
 @Slf4j
 public class ApiTest {
+
+    private SqlSession sqlSession;
+
+    @Before
+    public void init() throws IOException {
+        // 1. 从SqlSessionFactory中获取SqlSession
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsReader("mybatis-config-datasource.xml"));
+        sqlSession = sqlSessionFactory.openSession();
+    }
 
     @Test
     public void test_MapperProxyFactory() {
@@ -102,5 +113,35 @@ public class ApiTest {
         User user = userDao.queryUser(queryPram);
         long end = System.currentTimeMillis();
         log.info("测试结果：{} ms，{}", end - start, user);
+    }
+
+    @Test
+    public void test_insertUserInfo() {
+        // 1. 获取映射器对象
+        IUserDao userDao = sqlSession.getMapper(IUserDao.class);
+
+        // 2. 测试验证
+        long start = System.currentTimeMillis();
+        User user = new User();
+        user.setCode("10002");
+        user.setFullname("小白");
+        userDao.insert(user);
+        // 3. 提交事务
+        sqlSession.commit();
+        long end = System.currentTimeMillis();
+        log.info("测试结果：{} ms，{}", end - start, user);
+    }
+
+    @Test
+    public void test_listUserInfo() {
+        // 1. 获取映射器对象
+        IUserDao userDao = sqlSession.getMapper(IUserDao.class);
+
+        // 2. 测试验证
+        long start = System.currentTimeMillis();
+
+        List<User> users = userDao.list();
+        long end = System.currentTimeMillis();
+        log.info("测试结果：{} ms，{}", end - start, users);
     }
 }

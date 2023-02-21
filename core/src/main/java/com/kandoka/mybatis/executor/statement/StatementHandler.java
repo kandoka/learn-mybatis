@@ -31,6 +31,14 @@ public interface StatementHandler {
     void parameterize(Statement statement) throws SQLException;
 
     /**
+     * execute update
+     * @param statement
+     * @return
+     * @throws SQLException
+     */
+    int update(Statement statement) throws SQLException;
+
+    /**
      * execute query
      * @param statement
      * @param resultHandler

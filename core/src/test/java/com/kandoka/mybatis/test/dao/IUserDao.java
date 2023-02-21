@@ -2,6 +2,8 @@ package com.kandoka.mybatis.test.dao;
 
 import com.kandoka.mybatis.test.po.User;
 
+import java.util.List;
+
 /**
  * @Description TODO
  * @Author kandoka
@@ -14,4 +16,12 @@ public interface IUserDao {
     User queryUserById(Long id);
 
     User queryUser(User user);
+
+    List<User> list();
+
+    void insert(User user);
+
+    int update(User user);
+
+    int delete(String id);
 }

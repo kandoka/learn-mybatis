@@ -85,6 +85,15 @@ public class XMLStatementBuilder extends BaseBuilder {
 
         SqlSource sqlSource = langDriver.createSqlSource(configuration, element, parameterTypeClass);
 
+        log.info("Parsing result: \nid: {}, \nsqlSource: {}, \nsqlCommandType: {}, " +
+                "\nparameterTypeClass: {}, \nresultMap: {}, \nresultTypeClass: {}, \nlangDriver: {}",
+                id,
+                sqlSource,
+                sqlCommandType,
+                parameterTypeClass == null ? null : parameterTypeClass.getCanonicalName(),
+                resultMap,
+                resultTypeClass == null ? null : resultTypeClass.getCanonicalName(),
+                langDriver);
         // 调用助手类【便于统一处理参数的包装】
         builderAssistant.addMappedStatement(id,
                 sqlSource,

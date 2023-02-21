@@ -19,7 +19,26 @@ public interface Executor {
 
     ResultHandler NO_RESULT_HANDLER = null;
 
-    <E> List<E> query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql);
+    /**
+     * interface method for insert|update|delete
+     * @param ms
+     * @param parameter
+     * @return
+     * @throws SQLException
+     */
+    int update(MappedStatement ms, Object parameter) throws SQLException;
+
+    /**
+     * interface method for query
+     * @param ms
+     * @param parameter
+     * @param rowBounds
+     * @param resultHandler
+     * @param boundSql
+     * @return
+     * @param <E>
+     */
+    <E> List<E> query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) throws SQLException;
 
     Transaction getTransaction();
 
