@@ -1,4 +1,4 @@
-package com.kandoka.mybatis.executor.resultset;
+package com.kandoka.mybatis.executor.parameter;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

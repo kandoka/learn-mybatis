@@ -4,6 +4,7 @@ import com.kandoka.mybatis.executor.Executor;
 import com.kandoka.mybatis.mapping.BoundSql;
 import com.kandoka.mybatis.mapping.MappedStatement;
 import com.kandoka.mybatis.session.ResultHandler;
+import com.kandoka.mybatis.session.RowBounds;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -17,8 +18,9 @@ import java.util.List;
  */
 public class SimpleStatementHandler extends BaseStatementHandler {
 
-    public SimpleStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, ResultHandler resultHandler, BoundSql boundSql) {
-        super(executor, mappedStatement, parameterObject, resultHandler, boundSql);
+    public SimpleStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject,
+                                  RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
+        super(executor, mappedStatement, parameterObject, rowBounds, resultHandler, boundSql);
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.kandoka.mybatis.log.MarkableLoggerFactory;
 import com.kandoka.mybatis.mapping.BoundSql;
 import com.kandoka.mybatis.mapping.MappedStatement;
 import com.kandoka.mybatis.session.ResultHandler;
+import com.kandoka.mybatis.session.RowBounds;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
@@ -24,8 +25,8 @@ public class PreparedStatementHandler extends BaseStatementHandler {
 
     private final static MarkableLogger log = MarkableLoggerFactory.getLogger(Mark.STATEMENT, PreparedStatementHandler.class);
 
-    public PreparedStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, ResultHandler resultHandler, BoundSql boundSql) {
-        super(executor, mappedStatement, parameterObject, resultHandler, boundSql);
+    public PreparedStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
+        super(executor, mappedStatement, parameterObject, rowBounds, resultHandler, boundSql);
     }
 
     @Override

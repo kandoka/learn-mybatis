@@ -6,8 +6,8 @@ import com.kandoka.mybatis.datasource.pooled.PooledDataSourceFactory;
 import com.kandoka.mybatis.datasource.unpooled.UnpooledDataSourceFactory;
 import com.kandoka.mybatis.executor.Executor;
 import com.kandoka.mybatis.executor.SimpleExecutor;
+import com.kandoka.mybatis.executor.parameter.ParameterHandler;
 import com.kandoka.mybatis.executor.resultset.DefaultResultSetHandler;
-import com.kandoka.mybatis.executor.resultset.ParameterHandler;
 import com.kandoka.mybatis.executor.resultset.ResultSetHandler;
 import com.kandoka.mybatis.executor.statement.PreparedStatementHandler;
 import com.kandoka.mybatis.executor.statement.StatementHandler;
@@ -26,14 +26,11 @@ import com.kandoka.mybatis.transaction.Transaction;
 import com.kandoka.mybatis.transaction.jdbc.JdbcTransactionFactory;
 import com.kandoka.mybatis.type.TypeAliasRegistry;
 import com.kandoka.mybatis.type.TypeHandlerRegistry;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 /**
  * @Description a wrapper for registry and sql statements
@@ -112,8 +109,8 @@ public class Configuration {
      * @param boundSql
      * @return
      */
-    public ResultSetHandler newResultSetHandler(Executor executor, MappedStatement mappedStatement, BoundSql boundSql) {
-        return new DefaultResultSetHandler(executor, mappedStatement, boundSql);
+    public ResultSetHandler newResultSetHandler(Executor executor, MappedStatement mappedStatement, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
+        return new DefaultResultSetHandler(executor, mappedStatement, resultHandler, rowBounds, boundSql);
     }
 
     /**
@@ -134,9 +131,9 @@ public class Configuration {
      * @param boundSql
      * @return
      */
-    public StatementHandler newStatementHandler(Executor executor, MappedStatement mappedStatement,
-                                                Object parameter, ResultHandler resultHandler, BoundSql boundSql) {
-        return new PreparedStatementHandler(executor, mappedStatement, parameter, resultHandler, boundSql);
+    public StatementHandler newStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameter,
+                                                RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
+        return new PreparedStatementHandler(executor, mappedStatement, parameter, rowBounds, resultHandler, boundSql);
     }
 
     // 创建元对象
@@ -174,5 +171,9 @@ public class Configuration {
 
     public LanguageDriver getDefaultScriptingLanguageInstance() {
         return languageRegistry.getDefaultDriver();
+    }
+
+    public ObjectFactory getObjectFactory() {
+        return objectFactory;
     }
 }

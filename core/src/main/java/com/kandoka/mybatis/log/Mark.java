@@ -21,7 +21,6 @@ public enum Mark {
         this.text = text;
     }
 
-    public static final String LOG_NAME = "FUNCTION_ID";
     public final String code;
     public final String text;
 }

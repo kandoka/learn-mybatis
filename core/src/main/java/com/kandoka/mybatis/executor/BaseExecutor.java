@@ -4,6 +4,7 @@ import com.kandoka.mybatis.mapping.BoundSql;
 import com.kandoka.mybatis.mapping.MappedStatement;
 import com.kandoka.mybatis.session.Configuration;
 import com.kandoka.mybatis.session.ResultHandler;
+import com.kandoka.mybatis.session.RowBounds;
 import com.kandoka.mybatis.transaction.Transaction;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,11 +34,11 @@ public abstract class BaseExecutor implements Executor {
     }
 
     @Override
-    public <E> List<E> query(MappedStatement ms, Object parameter, ResultHandler resultHandler, BoundSql boundSql) {
+    public <E> List<E> query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
         if (closed) {
             throw new RuntimeException("Executor was closed.");
         }
-        return doQuery(ms, parameter, resultHandler, boundSql);
+        return doQuery(ms, parameter, rowBounds, resultHandler, boundSql);
     }
 
     /**
@@ -50,7 +51,7 @@ public abstract class BaseExecutor implements Executor {
      * @param <E>
      * @return
      */
-    protected abstract <E> List<E> doQuery(MappedStatement ms, Object parameter, ResultHandler resultHandler, BoundSql boundSql);
+    protected abstract <E> List<E> doQuery(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql);
 
     @Override
     public Transaction getTransaction() {

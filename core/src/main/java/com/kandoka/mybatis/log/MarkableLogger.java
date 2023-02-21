@@ -21,10 +21,24 @@ public class MarkableLogger {
         if (!isPrintableMark()) {
             return;
         }
-        this.logger.info("[" + mark.code + "] - " + format, arguments);
+        this.logger.info("[" + this.mark.code + "] - " + format, arguments);
     }
 
     public void error(String format, Object... arguments) {
+        if (isPrintableMark()) {
+            return;
+        }
+        this.logger.error("[" + this.mark.code + "] - " + format, arguments);
+    }
+
+    public void info(Mark mark, String format, Object... arguments) {
+        if (!isPrintableMark()) {
+            return;
+        }
+        this.logger.info("[" + mark.code + "] - " + format, arguments);
+    }
+
+    public void error(Mark mark, String format, Object... arguments) {
         if (isPrintableMark()) {
             return;
         }

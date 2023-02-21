@@ -1,7 +1,7 @@
 package com.kandoka.mybatis.executor.statement;
 
 import com.kandoka.mybatis.executor.Executor;
-import com.kandoka.mybatis.executor.resultset.ParameterHandler;
+import com.kandoka.mybatis.executor.parameter.ParameterHandler;
 import com.kandoka.mybatis.executor.resultset.ResultSetHandler;
 import com.kandoka.mybatis.log.Mark;
 import com.kandoka.mybatis.log.MarkableLogger;
@@ -10,12 +10,11 @@ import com.kandoka.mybatis.mapping.BoundSql;
 import com.kandoka.mybatis.mapping.MappedStatement;
 import com.kandoka.mybatis.session.Configuration;
 import com.kandoka.mybatis.session.ResultHandler;
-import lombok.extern.slf4j.Slf4j;
+import com.kandoka.mybatis.session.RowBounds;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 
 /**
  * @Description TODO
@@ -37,17 +36,19 @@ public abstract class BaseStatementHandler implements StatementHandler {
     protected final ResultSetHandler resultSetHandler;
     protected final ParameterHandler parameterHandler;
 
+    protected final RowBounds rowBounds;
     protected BoundSql boundSql;
 
-    public BaseStatementHandler(Executor executor, MappedStatement mappedStatement,
-                                Object parameterObject, ResultHandler resultHandler, BoundSql boundSql) {
+    public BaseStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
         this.configuration = mappedStatement.getConfiguration();
         this.executor = executor;
         this.mappedStatement = mappedStatement;
+        this.rowBounds = rowBounds;
         this.boundSql = boundSql;
+
         this.parameterObject = parameterObject;
-        this.resultSetHandler = configuration.newResultSetHandler(executor, mappedStatement, boundSql);
         this.parameterHandler = configuration.newParameterHandler(mappedStatement, parameterObject, boundSql);
+        this.resultSetHandler = configuration.newResultSetHandler(executor, mappedStatement, rowBounds, resultHandler, boundSql);
     }
 
 

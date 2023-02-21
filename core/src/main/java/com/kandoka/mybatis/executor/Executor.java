@@ -3,6 +3,7 @@ package com.kandoka.mybatis.executor;
 import com.kandoka.mybatis.mapping.BoundSql;
 import com.kandoka.mybatis.mapping.MappedStatement;
 import com.kandoka.mybatis.session.ResultHandler;
+import com.kandoka.mybatis.session.RowBounds;
 import com.kandoka.mybatis.transaction.Transaction;
 
 import java.sql.SQLException;
@@ -18,7 +19,7 @@ public interface Executor {
 
     ResultHandler NO_RESULT_HANDLER = null;
 
-    <E> List<E> query(MappedStatement ms, Object parameter, ResultHandler resultHandler, BoundSql boundSql);
+    <E> List<E> query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql);
 
     Transaction getTransaction();
 

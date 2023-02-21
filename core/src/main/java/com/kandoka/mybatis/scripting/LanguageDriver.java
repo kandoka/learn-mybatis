@@ -1,6 +1,6 @@
 package com.kandoka.mybatis.scripting;
 
-import com.kandoka.mybatis.executor.resultset.ParameterHandler;
+import com.kandoka.mybatis.executor.parameter.ParameterHandler;
 import com.kandoka.mybatis.mapping.BoundSql;
 import com.kandoka.mybatis.mapping.MappedStatement;
 import com.kandoka.mybatis.mapping.SqlSource;

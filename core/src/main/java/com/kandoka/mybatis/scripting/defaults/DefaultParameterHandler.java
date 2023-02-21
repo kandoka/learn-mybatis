@@ -1,7 +1,7 @@
 package com.kandoka.mybatis.scripting.defaults;
 
 import com.alibaba.fastjson.JSON;
-import com.kandoka.mybatis.executor.resultset.ParameterHandler;
+import com.kandoka.mybatis.executor.parameter.ParameterHandler;
 import com.kandoka.mybatis.log.Mark;
 import com.kandoka.mybatis.log.MarkableLogger;
 import com.kandoka.mybatis.log.MarkableLoggerFactory;

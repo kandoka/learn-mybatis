@@ -5,6 +5,7 @@ import com.kandoka.mybatis.mapping.BoundSql;
 import com.kandoka.mybatis.mapping.MappedStatement;
 import com.kandoka.mybatis.session.Configuration;
 import com.kandoka.mybatis.session.ResultHandler;
+import com.kandoka.mybatis.session.RowBounds;
 import com.kandoka.mybatis.transaction.Transaction;
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,10 +41,10 @@ public class SimpleExecutor extends BaseExecutor {
      * @param <E>
      */
     @Override
-    protected <E> List<E> doQuery(MappedStatement ms, Object parameter, ResultHandler resultHandler, BoundSql boundSql) {
+    protected <E> List<E> doQuery(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
         try {
             Configuration configuration = ms.getConfiguration();
-            StatementHandler handler = configuration.newStatementHandler(this, ms, parameter, resultHandler, boundSql);
+            StatementHandler handler = configuration.newStatementHandler(this, ms, parameter, rowBounds, resultHandler, boundSql);
             Connection connection = transaction.getConnection();
             Statement stmt = handler.prepare(connection);
             handler.parameterize(stmt);

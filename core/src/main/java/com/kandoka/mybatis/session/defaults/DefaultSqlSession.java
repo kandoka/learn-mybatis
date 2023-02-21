@@ -7,6 +7,7 @@ import com.kandoka.mybatis.mapping.BoundSql;
 import com.kandoka.mybatis.mapping.Environment;
 import com.kandoka.mybatis.mapping.MappedStatement;
 import com.kandoka.mybatis.session.Configuration;
+import com.kandoka.mybatis.session.RowBounds;
 import com.kandoka.mybatis.session.SqlSession;
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,7 +42,7 @@ public class DefaultSqlSession implements SqlSession {
     public <T> T selectOne(String statement, Object parameter) {
         try {
             MappedStatement ms = configuration.getMappedStatement(statement);
-            List<T> list = executor.query(ms, parameter, Executor.NO_RESULT_HANDLER, ms.getSqlSource().getBoundSql(parameter));
+            List<T> list = executor.query(ms, parameter, RowBounds.DEFAULT, Executor.NO_RESULT_HANDLER, ms.getSqlSource().getBoundSql(parameter));
             return list.get(0);
         } catch (Exception e) {
             log.error("Error executing sql: {}, parameter: {}", statement, parameter, e);
