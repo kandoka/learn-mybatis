@@ -92,6 +92,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
     }
 
     private void handleResultSet(ResultSetWrapper rsw, ResultMap resultMap, List<Object> multipleResults, ResultMapping parentMapping) throws SQLException {
+        log.info("DO handle result set, current results size is {}", multipleResults.size());
         if (resultHandler == null) {
             // 1. 新创建结果处理器
             DefaultResultHandler defaultResultHandler = new DefaultResultHandler(objectFactory);
@@ -100,6 +101,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
             // 3. 保存结果
             multipleResults.add(defaultResultHandler.getResultList());
         }
+        log.info("Finish handling result set, current results size is {}", multipleResults.size());
     }
 
     private void handleRowValuesForSimpleResultMap(ResultSetWrapper rsw, ResultMap resultMap, ResultHandler resultHandler, RowBounds rowBounds, ResultMapping parentMapping) throws SQLException {
