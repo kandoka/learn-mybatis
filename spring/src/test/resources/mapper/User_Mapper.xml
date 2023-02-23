@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kandoka.mybatis.spring.test.dao.IUserDao">
+
+    <select id="queryUserById" parameterType="java.lang.Long" resultType="com.kandoka.mybatis.spring.test.po.User">
+        SELECT ID_ as id, CODE_ as code, FULLNAME_ as fullname, CREATED_TIME_ as createdTime
+        FROM org_user
+        where ID_ = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="queryUser" parameterType="com.kandoka.mybatis.spring.test.po.User" resultType="com.kandoka.mybatis.spring.test.po.User">
+        SELECT ID_ as id, CODE_ as code, FULLNAME_ as fullname, CREATED_TIME_ as createdTime
+        FROM org_user
+        where ID_ = #{id,jdbcType=VARCHAR} and CODE_ = #{code,jdbcType=VARCHAR}
+    </select>
+
+    <select id="list" resultType="com.kandoka.mybatis.spring.test.po.User">
+        SELECT ID_ as id, CODE_ as code, FULLNAME_ as fullname, CREATED_TIME_ as createdTime
+        FROM org_user
+    </select>
+
+    <insert id="insert" parameterType="com.kandoka.mybatis.spring.test.po.User">
+        INSERT INTO org_user
+            (ID_, CODE_, FULLNAME_, CREATED_TIME_, UPDATED_TIME_)
+        VALUES ((select max(u.ID_) + 1 as MAX_ID_ from org_user u), #{code}, #{fullname}, now(), now())
+    </insert>
+
+    <update id="update" parameterType="com.kandoka.mybatis.spring.test.po.User" resultType="java.lang.Integer">
+        UPDATE org_user
+        SET FULLNAME_ = #{fullname}
+        WHERE ID_ = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String" resultType="java.lang.Integer">
+        DELETE FROM org_user
+        WHERE ID_ = #{id,jdbcType=VARCHAR}
+    </delete>
+</mapper>

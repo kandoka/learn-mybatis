@@ -14,7 +14,8 @@ public enum Mark {
     SQL("SQL", "SQL语句"),
     SESSION("SESSION", "会话"),
     EXECUTE("EXECUTE", "执行"),
-    RESULT("RESULT", "结果");
+    RESULT("RESULT", "结果"),
+    SPRING("SPRING", "整合到Spring框架");
 
     Mark(String code, String text) {
         this.code = code;
