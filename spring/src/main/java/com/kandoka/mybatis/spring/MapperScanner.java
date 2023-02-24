@@ -34,6 +34,11 @@ public class MapperScanner extends ClassPathBeanDefinitionScanner {
         log.info("Created a MapperScanner");
     }
 
+    /**
+     * 筛选扫描到的类，这里只需要接口
+     * @param beanDefinition
+     * @return
+     */
     @Override
     protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
         AnnotationMetadata metadata = beanDefinition.getMetadata();
@@ -61,15 +66,20 @@ public class MapperScanner extends ClassPathBeanDefinitionScanner {
         return holders;
     }
 
+    /**
+     * 将DAO接口的beanClass替换为MapperFactoryBean
+     * @param beanDefinition
+     */
     private void convertToMapperFactoryBean(BeanDefinition beanDefinition) {
         GenericBeanDefinition mapperFactoryBeanDefinition =
                 (GenericBeanDefinition) beanDefinition;
-        //get bean class name before it changes
+        // get bean class name before it changes
         String mapperInterfaceName = beanDefinition.getBeanClassName();
 
         // change mapper interface class to MapperFactoryBean.class
         mapperFactoryBeanDefinition.setBeanClass(MapperFactoryBean.class);
         ConstructorArgumentValues cav =  mapperFactoryBeanDefinition.getConstructorArgumentValues();
+        // inject arguments to constructor of MapperFactoryBean
         cav.addIndexedArgumentValue(0, mapperInterfaceName);
         cav.addIndexedArgumentValue(1, this.sqlSessionFactory);
     }

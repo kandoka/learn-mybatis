@@ -25,13 +25,6 @@ public class ApiTest {
 
     private SqlSession sqlSession;
 
-    @Before
-    public void init() throws IOException {
-        // 1. 从SqlSessionFactory中获取SqlSession
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsReader("mybatis-config-datasource.xml"));
-        sqlSession = sqlSessionFactory.openSession();
-    }
-
     @Test
     public void test_ClassPathXmlApplicationContext() {
         BeanFactory beanFactory = new ClassPathXmlApplicationContext("spring-config.xml");
